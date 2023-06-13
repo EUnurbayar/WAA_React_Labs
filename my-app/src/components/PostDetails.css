@@ -1,0 +1,24 @@
+.post-details {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .post-details h2 {
+    margin-top: 0;
+  }
+  
+  .post-details p {
+    margin-bottom: 10px;
+  }
+  
+  .post-details input[type="text"] {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .post-details button {
+    margin-right: 10px;
+  }
+  

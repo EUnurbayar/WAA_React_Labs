@@ -1,10 +1,15 @@
 import React from 'react';
+import './Post.css';
+const Post = ({ post, handlePostClick }) => {
+  const handleClick = () => {
+    handlePostClick(post.id);
+  };
 
-const Post = ({ post }) => {
   return (
-    <div>
+    <div className="post" >
       <h3>Title: {post.title}</h3>
       <p>Author: {post.author}</p>
+      <button onClick={handleClick}>Details</button>
     </div>
   );
 };

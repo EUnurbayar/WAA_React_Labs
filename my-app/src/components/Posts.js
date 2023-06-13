@@ -1,11 +1,11 @@
 import React from 'react';
 import Post from './Post';
 
-const Posts = ({ posts }) => {
+const Posts = ({ posts, handlePostClick }) => {
   return (
     <div>
       {posts.map((post) => (
-        <Post key={post.id} post={post} />
+        <Post key={post.id} post={post} handlePostClick={handlePostClick} />
       ))}
     </div>
   );

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Posts from './Posts';
+import PostDetails from './PostDetails';
+
 
 const Dashboard = () => {
   const initialPosts = [
@@ -9,29 +11,43 @@ const Dashboard = () => {
   ];
 
   const [posts, setPosts] = useState(initialPosts);
-  const [updatedTitle, setUpdatedTitle] = useState('');
+  const [selectedPost, setSelectedPost] = useState(null);
 
-  const updateFirstPostTitle = () => {
-    if (updatedTitle.trim() !== '') {
-      const updatedPosts = [...posts];
-      updatedPosts[0].title = updatedTitle;
-      setPosts(updatedPosts);
-      setUpdatedTitle('');
-    }
+  const handleUpdateTitle = (postId, newTitle) => {
+    const updatedPosts = posts.map((post) =>
+      post.id === postId ? { ...post, title: newTitle } : post
+    );
+    setPosts(updatedPosts);
+  };
+
+  const handleDeletePost = (postId) => {
+    const updatedPosts = posts.filter((post) => post.id !== postId);
+    setPosts(updatedPosts);
+    setSelectedPost(null);
+  };
+
+  const handlePostClick = (postId) => {
+    const post = posts.find((post) => post.id === postId);
+    setSelectedPost(post);
+  };
+
+  const handleBackToPosts = () => {
+    setSelectedPost(null);
   };
 
   return (
-    <div>
+    <div className="dashboard-container">
       <h1>Dashboard</h1>
-      <Posts posts={posts} />
-      <div>
-        <input
-          type="text"
-          value={updatedTitle}
-          onChange={(e) => setUpdatedTitle(e.target.value)}
+      {selectedPost ? (
+        <PostDetails
+          post={selectedPost}
+          handleUpdateTitle={handleUpdateTitle}
+          handleDeletePost={handleDeletePost}
+          handleBackToPosts={handleBackToPosts}
         />
-        <button onClick={updateFirstPostTitle}>Update Title</button>
-      </div>
+      ) : (
+        <Posts posts={posts} handlePostClick={handlePostClick} />
+      )}
     </div>
   );
 };
