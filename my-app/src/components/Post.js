@@ -9,7 +9,7 @@ const Post = ({ post, handlePostClick }) => {
     <div className="post" >
       <h3>Title: {post.title}</h3>
       <p>Author: {post.author}</p>
-      <button onClick={handleClick}>Details</button>
+      <button className='btn-details' onClick={handleClick}>Details</button>
     </div>
   );
 };
