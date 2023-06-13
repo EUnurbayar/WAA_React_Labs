@@ -1,24 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const Post = ({ post, updatePostTitle }) => {
-  const [newTitle, setNewTitle] = useState(post.title);
-
-  const handleUpdateTitle = () => {
-    updatePostTitle(post.id, newTitle);
-  };
-
+const Post = ({ post }) => {
   return (
     <div>
-      <h3>{post.title}</h3>
-      <p>{post.content}</p>
-      <div>
-        <input
-          type="text"
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
-        />
-        <button onClick={handleUpdateTitle}>Update Title</button>
-      </div>
+      <h3>Title: {post.title}</h3>
+      <p>Author: {post.author}</p>
     </div>
   );
 };
