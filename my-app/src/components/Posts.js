@@ -1,12 +1,18 @@
 import React from 'react';
-import Post from './Post';
+import './Post.css';
+import Post from "./Post";
 
-const Posts = ({ posts, handlePostClick }) => {
+const Posts = ({posts, handlePostClick}) => {
+
   return (
-    <div>
-      {posts.map((post) => (
-        <Post key={post.id} post={post} handlePostClick={handlePostClick} />
-      ))}
+    <div className="posts" >
+        {posts.map(
+          (
+            post
+          ) => (
+            <Post key={post.id} post={post} handlePostClick={handlePostClick} />
+          )
+        )}
     </div>
   );
 };
