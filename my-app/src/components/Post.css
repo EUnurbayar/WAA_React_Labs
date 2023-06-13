@@ -1,4 +1,6 @@
 .post {
+  background-color: blue;
+  color: white;
   border: 1px solid #ccc;
   padding: 10px;
   margin-bottom: 10px;
@@ -13,4 +15,10 @@
 .posts {
   display: flex;
   justify-content: space-between;
+}
+
+
+.btn-details{
+  background-color: blue;
+  color: white;
 }
