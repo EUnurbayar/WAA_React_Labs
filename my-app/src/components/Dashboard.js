@@ -1,15 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Posts from "./Posts";
 
 import PostDetails from "./PostDetails";
 import "./Dashboard.css";
 
 const Dashboard = () => {
+  
   const initialPosts = [
     { id: 1, title: "Post 1", author: "Author 1" },
     { id: 2, title: "Post 2", author: "Author 2" },
     { id: 3, title: "Post 3", author: "Author 3" },
   ];
+  useEffect((initialPosts) =>{
+
+    const fetchdata = (initialPosts) =>{
+      axios.get("http://localhost:8080/api/posts")
+      .then(response => {
+        setPosts(response.posts)
+      })
+      .catch(error => {
+        console.log(error.message)
+      })
+    }
+    }, [])
 
   const [posts, setPosts] = useState(initialPosts);
   const [selectedPost, setSelectedPost] = useState(null);
