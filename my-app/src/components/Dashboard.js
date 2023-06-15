@@ -6,28 +6,47 @@ import PostDetails from "./PostDetails";
 import "./Dashboard.css";
 
 const Dashboard = () => {
-  
-  const initialPosts = [
-    { id: 1, title: "Post 1", author: "Author 1" },
-    { id: 2, title: "Post 2", author: "Author 2" },
-    { id: 3, title: "Post 3", author: "Author 3" },
-  ];
-  useEffect((initialPosts) =>{
 
-    const fetchdata = (initialPosts) =>{
-      axios.get("http://localhost:8080/api/posts")
-      .then(response => {
-        setPosts(response.posts)
-      })
-      .catch(error => {
-        console.log(error.message)
-      })
-    }
-    }, [])
-
-  const [posts, setPosts] = useState(initialPosts);
+  const [body, setBody] = useState({ password: "123", email: "uinan@miu.edu" });
+  const [token, setToken] = useState(null);
+  const [posts, setPosts] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null);
   const [inputValue, setInputValue] = useState("");
+
+  const fetchData = () => {
+    axios
+      .post("http://localhost:8080/api/v1/authenticate", body)
+      .then((response) => {
+        if (response.data.accessToken) {
+          setToken(response.data.accessToken);
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if(token) {
+      console.log(token);
+      axios.get("http://localhost:8080/api/v1/posts",{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        console.log(`Data:`, response.data)
+        setPosts(response.data)
+      })
+      .catch(error => {
+        console.log(`Error:`, error)
+      })
+    }
+  }, [token])
 
   const handleUpdateTitle = (postId, newTitle) => {
     const updatedPosts = posts.map((post) =>
@@ -47,11 +66,11 @@ const Dashboard = () => {
 
   const handleButtonClick = () => {
     handleUpdateTitle(posts[0].id, inputValue);
-    if(selectedPost) {
-      if(selectedPost.id === posts[0].id) {
+    if (selectedPost) {
+      if (selectedPost.id === posts[0].id) {
         const post = posts.find((post) => post.id === posts[0].id);
-        post.title = inputValue
-        setSelectedPost(post)
+        post.title = inputValue;
+        setSelectedPost(post);
       }
     }
     setInputValue("");
@@ -61,7 +80,13 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <h1>Dashboard</h1>
       <div className="post-container">
-        <Posts key={posts.id} posts={posts} handlePostClick={handlePostClick} />
+        {posts && (
+          <Posts
+            key={posts.id}
+            posts={posts}
+            handlePostClick={handlePostClick}
+          />
+        )}
       </div>
       <div>
         <input value={inputValue} onChange={handleInputChange} />
